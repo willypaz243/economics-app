@@ -5,113 +5,96 @@
  * @format
  */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+function App(): React.JSX.Element {
+  const [value, setValue] = useState(0);
+  const [time, setTime] = useState(0);
+  const [type, setType] = useState('');
+  const [open, setOpen] = useState(false);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isNumber = (number: number | string) => {
+    if (typeof number === 'number') {
+      return true;
+    }
+    if (typeof number === 'string') {
+      const regex = /^\d+(\.\d{0,2})?$/;
+      return regex.exec(number) !== null;
+    }
+  };
+  const handleChange = (text: string) => {
+    if (isNumber(text)) {
+      setValue(Number(text));
+    }
+  };
+  const handleTimeChange = (text: string) => {
+    if (isNumber(text)) {
+      setTime(Number(text));
+    }
+  };
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
+    <View style={styles.container}>
+      <Text style={styles.title}>ICalculatorPU</Text>
+      <Text style={styles.text}>
+        Calculadora de Interes Compuesto para el Pago Unico
       </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+      <TextInput
+        style={styles.input}
+        keyboardType="number-pad"
+        placeholder="Ingrese el monto del prestamo"
+        value={value > 0 ? value.toString() : ''}
+        onChangeText={handleChange}
+      />
+      <TextInput
+        style={styles.input}
+        keyboardType="number-pad"
+        placeholder="Ingrese el tiempo de expiracion"
+        value={time > 0 ? time.toString() : ''}
+        onChangeText={handleTimeChange}
+      />
+      <DropDownPicker
+        style={styles.input}
+        placeholder="tipo de capitalizacion"
+        open={open}
+        value={type}
+        setOpen={setOpen}
+        setValue={setType}
+        items={[
+          {label: 'Diario', value: 'day'},
+          {label: 'Semanal', value: 'week'},
+          {label: 'Quincenal', value: 'quin'},
+          {label: 'Mensual', value: 'month'},
+          {label: 'Bimestral', value: 'bim'},
+          {label: 'Trimestral', value: 'trim'},
+          {label: 'Semestral', value: 'sem'},
+          {label: 'Anual', value: 'year'},
+        ]}
+      />
     </View>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  text: {
+    fontSize: 16,
   },
-  highlight: {
-    fontWeight: '700',
+  input: {
+    marginVertical: 3,
+    margin: 'auto',
+    width: 300,
+    height: 40,
+    borderWidth: 1,
   },
 });
 
