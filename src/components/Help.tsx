@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import {ScrollView, StyleSheet, Text} from 'react-native';
 
 export function Help(): React.JSX.Element {
   return (
@@ -7,27 +7,35 @@ export function Help(): React.JSX.Element {
       <Text style={styles.title}>Ayuda</Text>
       <Text style={styles.sectionTitle}>¿Cómo usar la aplicación?</Text>
       <Text style={styles.text}>
-        Bienvenido a la aplicación de cálculo de interés compuesto para pago único. Aquí encontrarás instrucciones sobre cómo utilizarla.
+        Bienvenido a la aplicación de cálculo de interés compuesto para pago
+        único. Aquí encontrarás instrucciones sobre cómo utilizarla.
       </Text>
       <Text style={styles.subTitle}>1. Inicio</Text>
       <Text style={styles.text}>
-        Al abrir la aplicación, verás una pantalla de inicio con una breve descripción y un botón para acceder a la calculadora.
+        Al abrir la aplicación, verás una pantalla de inicio con una breve
+        descripción y un botón para acceder a la calculadora.
       </Text>
       <Text style={styles.subTitle}>2. Calculadora</Text>
       <Text style={styles.text}>
-        En la calculadora, ingresa la cantidad inicial de la inversión, la tasa de interés anual y el período en años. Luego, presiona "Calcular" para obtener el valor futuro de la inversión.
+        En la calculadora, ingresa la cantidad inicial de la inversión, la tasa
+        de interés anual y el período en años. Luego, presiona "Calcular" para
+        obtener el valor futuro de la inversión.
       </Text>
       <Text style={styles.subTitle}>3. Resultados</Text>
       <Text style={styles.text}>
-        Una vez calculado, se mostrará en pantalla el valor futuro de la inversión, basado en la información ingresada.
+        Una vez calculado, se mostrará en pantalla el valor futuro de la
+        inversión, basado en la información ingresada.
       </Text>
       <Text style={styles.subTitle}>4. Ejemplos</Text>
       <Text style={styles.text}>
-        Para comprender mejor el concepto, la aplicación incluye ejemplos de situaciones financieras comunes. Puedes acceder a ellos en la sección de ejemplos.
+        Para comprender mejor el concepto, la aplicación incluye ejemplos de
+        situaciones financieras comunes. Puedes acceder a ellos en la sección de
+        ejemplos.
       </Text>
       <Text style={styles.subTitle}>5. Ayuda</Text>
       <Text style={styles.text}>
-        Si necesitas más información sobre cómo utilizar la aplicación o sobre el concepto de interés compuesto, puedes consultar la sección de ayuda.
+        Si necesitas más información sobre cómo utilizar la aplicación o sobre
+        el concepto de interés compuesto, puedes consultar la sección de ayuda.
       </Text>
     </ScrollView>
   );

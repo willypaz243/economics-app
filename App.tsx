@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Home, PUCalculator, Ejemplos,Help } from './src/components';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Home, PUCalculator, Ejemplos, Help} from './src/components';
 
 const Stack = createNativeStackNavigator();
 

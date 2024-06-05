@@ -1,14 +1,14 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View, processColor } from 'react-native';
-import { BarChart } from 'react-native-charts-wrapper';
+import {Button, StyleSheet, Text, View, processColor} from 'react-native';
+import {BarChart} from 'react-native-charts-wrapper';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type Props = {
   readonly navigation: NativeStackNavigationProp<any, any>;
 };
 
-export function PUCalculator({ navigation }: Props): React.JSX.Element {
+export function PUCalculator({navigation}: Props): React.JSX.Element {
   const [type, setType] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
@@ -27,14 +27,14 @@ export function PUCalculator({ navigation }: Props): React.JSX.Element {
           setOpen={setOpen}
           setValue={setType}
           items={[
-            { label: 'Diario', value: 'day' },
-            { label: 'Semanal', value: 'week' },
-            { label: 'Quincenal', value: 'quin' },
-            { label: 'Mensual', value: 'month' },
-            { label: 'Bimestral', value: 'bim' },
-            { label: 'Trimestral', value: 'trim' },
-            { label: 'Semestral', value: 'sem' },
-            { label: 'Anual', value: 'year' },
+            {label: 'Diario', value: 'day'},
+            {label: 'Semanal', value: 'week'},
+            {label: 'Quincenal', value: 'quin'},
+            {label: 'Mensual', value: 'month'},
+            {label: 'Bimestral', value: 'bim'},
+            {label: 'Trimestral', value: 'trim'},
+            {label: 'Semestral', value: 'sem'},
+            {label: 'Anual', value: 'year'},
           ]}
         />
       </View>
@@ -60,17 +60,17 @@ export function PUCalculator({ navigation }: Props): React.JSX.Element {
               enabled: false,
             },
           }}
-          marker={{ enabled: true }}
+          marker={{enabled: true}}
           data={{
             dataSets: [
               {
                 values: [
-                  { x: 1, y: -224, marker: '1' },
-                  { x: 3, y: 238, marker: '3' },
-                  { x: 9, y: 1280, marker: '9' },
-                  { x: 10, y: -442, marker: '10' },
-                  { x: 12, y: 2280, marker: '12' },
-                  { x: 15, y: -1742, marker: '15' },
+                  {x: 1, y: -224, marker: '1'},
+                  {x: 3, y: 238, marker: '3'},
+                  {x: 9, y: 1280, marker: '9'},
+                  {x: 10, y: -442, marker: '10'},
+                  {x: 12, y: 2280, marker: '12'},
+                  {x: 15, y: -1742, marker: '15'},
                 ],
                 label: 'Deudas y Pagos',
                 config: {
@@ -83,8 +83,8 @@ export function PUCalculator({ navigation }: Props): React.JSX.Element {
               barWidth: 0.5,
             },
           }}
-          chartDescription={{ text: '' }}
-          legend={{ textSize: 14, drawInside: true }}
+          chartDescription={{text: ''}}
+          legend={{textSize: 14, drawInside: true}}
           onSelect={event => {
             console.log(JSON.stringify(event.nativeEvent, null, 2));
           }}
@@ -106,10 +106,7 @@ export function PUCalculator({ navigation }: Props): React.JSX.Element {
           />
         </View>
         <View style={styles.button}>
-          <Button
-            title="Help"
-            onPress={() => navigation.navigate('Help')}
-          />
+          <Button title="Help" onPress={() => navigation.navigate('Help')} />
         </View>
       </View>
     </View>
