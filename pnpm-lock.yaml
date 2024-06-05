@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@react-native-community/cli':
+        specifier: ^13.6.6
+        version: 13.6.6
+      '@react-native-community/cli-platform-android':
+        specifier: ^13.6.6
+        version: 13.6.6
+      '@react-native/gradle-plugin':
+        specifier: ^0.74.83
+        version: 0.74.83
       '@react-navigation/native':
         specifier: ^6.1.17
         version: 6.1.17(react-native@0.74.1(@babel/core@7.24.6)(@babel/preset-env@7.24.6(@babel/core@7.24.6))(@types/react@18.3.3)(react@18.2.0))(react@18.2.0)
@@ -5288,7 +5297,10 @@ snapshots:
     transitivePeerDependencies:
       - '@babel/core'
       - '@babel/preset-env'
+      - bufferutil
+      - encoding
       - supports-color
+      - utf-8-validate
 
   '@react-native/normalize-color@2.1.0': {}
 

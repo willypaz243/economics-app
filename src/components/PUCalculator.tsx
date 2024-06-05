@@ -1,14 +1,16 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View, processColor} from 'react-native';
-import {BarChart} from 'react-native-charts-wrapper';
+import { Button, StyleSheet, Text, View, processColor } from 'react-native';
+import { BarChart } from 'react-native-charts-wrapper';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-export function PUCalculator(): React.JSX.Element {
+type Props = {
+  readonly navigation: NativeStackNavigationProp<any, any>;
+};
+
+export function PUCalculator({ navigation }: Props): React.JSX.Element {
   const [type, setType] = React.useState('');
   const [open, setOpen] = React.useState(false);
-
-  const GREEN = processColor('#71BD6A');
-  const RED = processColor('#D14B5A');
 
   return (
     <View style={styles.container}>
@@ -25,20 +27,20 @@ export function PUCalculator(): React.JSX.Element {
           setOpen={setOpen}
           setValue={setType}
           items={[
-            {label: 'Diario', value: 'day'},
-            {label: 'Semanal', value: 'week'},
-            {label: 'Quincenal', value: 'quin'},
-            {label: 'Mensual', value: 'month'},
-            {label: 'Bimestral', value: 'bim'},
-            {label: 'Trimestral', value: 'trim'},
-            {label: 'Semestral', value: 'sem'},
-            {label: 'Anual', value: 'year'},
+            { label: 'Diario', value: 'day' },
+            { label: 'Semanal', value: 'week' },
+            { label: 'Quincenal', value: 'quin' },
+            { label: 'Mensual', value: 'month' },
+            { label: 'Bimestral', value: 'bim' },
+            { label: 'Trimestral', value: 'trim' },
+            { label: 'Semestral', value: 'sem' },
+            { label: 'Anual', value: 'year' },
           ]}
         />
       </View>
-      <View style={styles.container}>
+      <View style={styles.chartContainer}>
         <BarChart
-          style={styles.container}
+          style={styles.chart}
           xAxis={{
             position: 'TOP_INSIDE',
             drawLimitLinesBehindData: true,
@@ -58,21 +60,21 @@ export function PUCalculator(): React.JSX.Element {
               enabled: false,
             },
           }}
-          marker={{enabled: true}}
+          marker={{ enabled: true }}
           data={{
             dataSets: [
               {
                 values: [
-                  {x: 1, y: -224, marker: '1'},
-                  {x: 3, y: 238, marker: '3'},
-                  {x: 9, y: 1280, marker: '9'},
-                  {x: 10, y: -442, marker: '10'},
-                  {x: 12, y: 2280, marker: '12'},
-                  {x: 15, y: -1742, marker: '15'},
+                  { x: 1, y: -224, marker: '1' },
+                  { x: 3, y: 238, marker: '3' },
+                  { x: 9, y: 1280, marker: '9' },
+                  { x: 10, y: -442, marker: '10' },
+                  { x: 12, y: 2280, marker: '12' },
+                  { x: 15, y: -1742, marker: '15' },
                 ],
                 label: 'Deudas y Pagos',
                 config: {
-                  colors: [RED, GREEN, GREEN, RED, GREEN, RED],
+                  colors: [processColor('red'), processColor('green')],
                   valueTextSize: 12,
                 },
               },
@@ -81,21 +83,33 @@ export function PUCalculator(): React.JSX.Element {
               barWidth: 0.5,
             },
           }}
-          chartDescription={{text: ''}}
-          legend={{textSize: 14, drawInside: true}}
+          chartDescription={{ text: '' }}
+          legend={{ textSize: 14, drawInside: true }}
           onSelect={event => {
             console.log(JSON.stringify(event.nativeEvent, null, 2));
           }}
         />
       </View>
-      <View style={styles.controllers}>
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button title="Agregar deuda" />
-          </View>
-          <View style={styles.button}>
-            <Button title="Calcular" />
-          </View>
+      <View style={styles.buttonContainer}>
+        <View style={styles.button}>
+          <Button title="Agregar deuda" />
+        </View>
+        <View style={styles.button}>
+          <Button title="Calcular" />
+        </View>
+      </View>
+      <View style={styles.bottomButtons}>
+        <View style={styles.button}>
+          <Button
+            title="Ver Ejemplos"
+            onPress={() => navigation.navigate('Ejemplos')}
+          />
+        </View>
+        <View style={styles.button}>
+          <Button
+            title="Help"
+            onPress={() => navigation.navigate('Help')}
+          />
         </View>
       </View>
     </View>
@@ -105,13 +119,14 @@ export function PUCalculator(): React.JSX.Element {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginVertical: 30,
   },
-  controllers: {
+  chartContainer: {
     flex: 1,
-    alignItems: 'center',
+    justifyContent: 'center',
   },
-  buttonContainer: {
-    flexDirection: 'row',
+  chart: {
+    flex: 1,
   },
   title: {
     textAlign: 'center',
@@ -121,6 +136,17 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 16,
+    marginVertical: 10,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
+  },
+  bottomButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 30,
   },
   button: {
     padding: 4,
@@ -134,3 +160,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 });
+
+export default PUCalculator;
