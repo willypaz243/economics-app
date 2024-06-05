@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View, processColor} from 'react-native';
-import {BarChart} from 'react-native-charts-wrapper';
+import { Button, StyleSheet, Text, View, processColor } from 'react-native';
+import { BarChart } from 'react-native-charts-wrapper';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export function PUCalculator(): React.JSX.Element {
@@ -25,14 +25,14 @@ export function PUCalculator(): React.JSX.Element {
           setOpen={setOpen}
           setValue={setType}
           items={[
-            {label: 'Diario', value: 'day'},
-            {label: 'Semanal', value: 'week'},
-            {label: 'Quincenal', value: 'quin'},
-            {label: 'Mensual', value: 'month'},
-            {label: 'Bimestral', value: 'bim'},
-            {label: 'Trimestral', value: 'trim'},
-            {label: 'Semestral', value: 'sem'},
-            {label: 'Anual', value: 'year'},
+            { label: 'Diario', value: 'day' },
+            { label: 'Semanal', value: 'week' },
+            { label: 'Quincenal', value: 'quin' },
+            { label: 'Mensual', value: 'month' },
+            { label: 'Bimestral', value: 'bim' },
+            { label: 'Trimestral', value: 'trim' },
+            { label: 'Semestral', value: 'sem' },
+            { label: 'Anual', value: 'year' },
           ]}
         />
       </View>
@@ -58,17 +58,17 @@ export function PUCalculator(): React.JSX.Element {
               enabled: false,
             },
           }}
-          marker={{enabled: true}}
+          marker={{ enabled: true }}
           data={{
             dataSets: [
               {
                 values: [
-                  {x: 1, y: -224, marker: '1'},
-                  {x: 3, y: 238, marker: '3'},
-                  {x: 9, y: 1280, marker: '9'},
-                  {x: 10, y: -442, marker: '10'},
-                  {x: 12, y: 2280, marker: '12'},
-                  {x: 15, y: -1742, marker: '15'},
+                  { x: 1, y: -224, marker: '1' },
+                  { x: 3, y: 238, marker: '3' },
+                  { x: 9, y: 1080, marker: '9' },
+                  { x: 10, y: -442, marker: '10' },
+                  { x: 12, y: 1080, marker: '12' },
+                  { x: 15, y: -1742, marker: '15' },
                 ],
                 label: 'Deudas y Pagos',
                 config: {
@@ -81,8 +81,8 @@ export function PUCalculator(): React.JSX.Element {
               barWidth: 0.5,
             },
           }}
-          chartDescription={{text: ''}}
-          legend={{textSize: 14, drawInside: true}}
+          chartDescription={{ text: '' }}
+          legend={{ textSize: 14, drawInside: true }}
           onSelect={event => {
             console.log(JSON.stringify(event.nativeEvent, null, 2));
           }}
@@ -96,6 +96,12 @@ export function PUCalculator(): React.JSX.Element {
           <View style={styles.button}>
             <Button title="Calcular" />
           </View>
+          <View style={styles.button}>
+            <Button
+              title="Ayuda"
+              //onPress={() => navigation.navigate('Help')}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -104,10 +110,10 @@ export function PUCalculator(): React.JSX.Element {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
   },
   controllers: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
   },
   buttonContainer: {
