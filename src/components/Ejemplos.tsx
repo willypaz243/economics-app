@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import TextSquare from './TextSquare';
+import TextSquare from './TextSquare';// Importa el componente TextSquare
 
+// Componente funcional Ejemplos que muestra una lista de TextSquare con ejemplos
 export function Ejemplos(): React.JSX.Element {
   return (
     <View style={styles.container}>
@@ -45,6 +46,7 @@ export function Ejemplos(): React.JSX.Element {
   );
 }
 
+// Estilos para el componente Ejemplos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
