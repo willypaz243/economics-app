@@ -1,50 +1,69 @@
-import React from 'react';
-import {Button, StyleSheet, Text, View, processColor} from 'react-native';
-import {BarChart} from 'react-native-charts-wrapper';
-import DropDownPicker from 'react-native-dropdown-picker';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import React from 'react';
+import {StyleSheet, Text, View, processColor} from 'react-native';
+import {BarChart} from 'react-native-charts-wrapper';
+import {AddDebtModal} from './organisms';
+
+import {Picker} from '@react-native-picker/picker';
+import globalStyles from '../globalStyles';
+
+import {GradientBG, GradientButton} from './atoms';
+import GradientPickerItem from './atoms/GradientPickerItem';
 
 type Props = {
   readonly navigation: NativeStackNavigationProp<any, any>;
 };
 
 export function PUCalculator({navigation}: Props): React.JSX.Element {
-  const [type, setType] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+  const items = [
+    {label: 'Diario', value: 'day'},
+    {label: 'Semanal', value: 'week'},
+    {label: 'Quincenal', value: 'quin'},
+    {label: 'Mensual', value: 'month'},
+    {label: 'Bimestral', value: 'bim'},
+    {label: 'Trimestral', value: 'trim'},
+    {label: 'Semestral', value: 'sem'},
+    {label: 'Anual', value: 'year'},
+  ];
+  const [timeRateValue, setTimeRateValue] = React.useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
+  // const [values, setValues] = React.useState<BarValue[]>([]);
+  // const [colors, setColors] = React.useState<ProcessedColorValue[]>([]);
+
+  // const addAmount = (debt: {x: number; y: number}) => {
+  //   setValues([...values, {x: debt.x, y: debt.y, marker: String(debt.x)}]);
+  //   setColors([...colors, processColor('red') as ProcessedColorValue]);
+  // };
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.titleContainer}>
         <Text style={styles.title}>ICalculatorPU</Text>
         <Text style={styles.text}>
           Calculadora de Interes Compuesto para el Pago Unico
         </Text>
-        <DropDownPicker
-          style={styles.input}
-          placeholder="tamaño de los periodos"
-          open={open}
-          value={type}
-          setOpen={setOpen}
-          setValue={setType}
-          items={[
-            {label: 'Diario', value: 'day'},
-            {label: 'Semanal', value: 'week'},
-            {label: 'Quincenal', value: 'quin'},
-            {label: 'Mensual', value: 'month'},
-            {label: 'Bimestral', value: 'bim'},
-            {label: 'Trimestral', value: 'trim'},
-            {label: 'Semestral', value: 'sem'},
-            {label: 'Anual', value: 'year'},
-          ]}
-        />
+        <GradientBG style={styles.picker}>
+          <Picker
+            selectedValue={timeRateValue}
+            onValueChange={setTimeRateValue}
+            mode="dropdown"
+            style={styles.pickerStyle}>
+            {items.map(item => (
+              <GradientPickerItem
+                key={item.value}
+                label={item.label}
+                value={item.value}
+              />
+            ))}
+          </Picker>
+        </GradientBG>
       </View>
-      <View style={styles.chartContainer}>
+      <View style={styles.charts}>
         <BarChart
-          style={styles.chart}
+          style={styles.charts}
           xAxis={{
             position: 'TOP_INSIDE',
             drawLimitLinesBehindData: true,
-            yOffset: 10,
             textSize: 14,
           }}
           yAxis={{
@@ -74,7 +93,14 @@ export function PUCalculator({navigation}: Props): React.JSX.Element {
                 ],
                 label: 'Deudas y Pagos',
                 config: {
-                  colors: [processColor('red'), processColor('green')],
+                  colors: [
+                    processColor('red'),
+                    processColor('green'),
+                    processColor('green'),
+                    processColor('red'),
+                    processColor('green'),
+                    processColor('red'),
+                  ],
                   valueTextSize: 12,
                 },
               },
@@ -91,30 +117,39 @@ export function PUCalculator({navigation}: Props): React.JSX.Element {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Button title="Agregar deuda" />
-        </View>
-        <View style={styles.button}>
-          <Button title="Calcular" />
-        </View>
+        <GradientButton
+          style={styles.button}
+          title="Agregar monto"
+          onPress={() => setModalVisible(true)}
+        />
+
+        <GradientButton style={styles.button} title="Calcular" />
       </View>
-      <View style={styles.bottomButtons}>
-        <View style={styles.button}>
-          <Button
-            title="Ver Ejemplos"
-            onPress={() => navigation.navigate('Ejemplos')}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button title="Help" onPress={() => navigation.navigate('Help')} />
-        </View>
+      <View style={styles.buttonContainer}>
+        <GradientButton
+          style={styles.button}
+          title="Ver Ejemplos"
+          onPress={() => navigation.navigate('Ejemplos')}
+        />
+
+        <GradientButton
+          style={styles.button}
+          title="Help"
+          onPress={() => navigation.navigate('Help')}
+        />
       </View>
+      <AddDebtModal
+        visible={modalVisible}
+        onSubmit={() => setModalVisible(false)}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  ...globalStyles,
+  charts: {
     flex: 1,
     marginVertical: 30,
   },
@@ -123,38 +158,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   chart: {
-    flex: 1,
+    flex: 0,
   },
-  title: {
-    textAlign: 'center',
-    fontSize: 20,
-    fontWeight: 'bold',
+  titleContainer: {
+    alignItems: 'center',
+    padding: 0,
   },
-  text: {
-    textAlign: 'center',
-    fontSize: 16,
-    marginVertical: 10,
+  picker: {
+    color: 'white',
+    width: 300,
+    marginTop: 8,
+    borderRadius: 5,
+  },
+  pickerStyle: {
+    color: 'white',
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 10,
-  },
-  bottomButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 30,
-  },
-  button: {
-    padding: 4,
     margin: 8,
-  },
-  input: {
-    marginVertical: 3,
-    margin: 'auto',
-    width: 300,
-    height: 40,
-    borderWidth: 1,
   },
 });
 

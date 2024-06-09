@@ -1,14 +1,18 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  DefaultTheme,
+  NavigationContainer,
+  Theme,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Home, PUCalculator, Ejemplos, Help} from './src/components';
+import React from 'react';
+import {Ejemplos, Help, Home, PUCalculator} from './src/components';
 
 const Stack = createNativeStackNavigator();
 
 function App(): React.JSX.Element {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="ExamplesScreen">
+    <NavigationContainer theme={theme}>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="PUCalculator" component={PUCalculator} />
         <Stack.Screen name="Ejemplos" component={Ejemplos} />
@@ -19,3 +23,12 @@ function App(): React.JSX.Element {
 }
 
 export default App;
+
+const theme: Theme = {
+  ...DefaultTheme,
+  dark: true,
+  colors: {
+    ...DefaultTheme.colors,
+    background: '#ACDEAA',
+  },
+};
