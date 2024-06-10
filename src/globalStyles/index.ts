@@ -22,7 +22,7 @@ export default StyleSheet.create({
   },
   button: {
     color: 'white',
-    paddingVertical: 16,
+    paddingVertical: 12,
     marginVertical: 8,
   },
 });

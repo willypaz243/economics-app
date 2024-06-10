@@ -1,6 +1,6 @@
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import {StyleSheet, Text, View, processColor} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, processColor} from 'react-native';
 import {BarChart} from 'react-native-charts-wrapper';
 import {AddDebtModal} from './organisms';
 
@@ -36,7 +36,7 @@ export function PUCalculator({navigation}: Props): React.JSX.Element {
   // };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>ICalculatorPU</Text>
         <Text style={styles.text}>
@@ -62,7 +62,7 @@ export function PUCalculator({navigation}: Props): React.JSX.Element {
         <BarChart
           style={styles.charts}
           xAxis={{
-            position: 'TOP_INSIDE',
+            position: 'TOP',
             drawLimitLinesBehindData: true,
             textSize: 14,
           }}
@@ -143,7 +143,7 @@ export function PUCalculator({navigation}: Props): React.JSX.Element {
         onSubmit={() => setModalVisible(false)}
         onClose={() => setModalVisible(false)}
       />
-    </View>
+    </ScrollView>
   );
 }
 
@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
   ...globalStyles,
   charts: {
     flex: 1,
-    marginVertical: 30,
+    marginVertical: 8,
+    minHeight: 384,
   },
   chartContainer: {
     flex: 1,
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
   picker: {
     color: 'white',
     width: 300,
-    marginTop: 8,
+    marginTop: 4,
     borderRadius: 5,
   },
   pickerStyle: {
