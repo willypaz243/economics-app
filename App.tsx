@@ -5,7 +5,13 @@ import {
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {Ejemplos, Help, Home, PUCalculator} from './src/components';
+import {
+  Ejemplos,
+  Help,
+  Home,
+  PUCalculator,
+  CalculatorIC,
+} from './src/components';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,6 +20,7 @@ function App(): React.JSX.Element {
     <NavigationContainer theme={theme}>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Interes Compuesto" component={CalculatorIC} />
         <Stack.Screen name="PUCalculator" component={PUCalculator} />
         <Stack.Screen name="Ejemplos" component={Ejemplos} />
         <Stack.Screen name="Help" component={Help} />

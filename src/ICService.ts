@@ -51,14 +51,4 @@ export class ICService {
     }
     return result;
   }
-
-  calculateFromtwoTimeLines(
-    timeLine: Array<TimeLineEntry>,
-    payTimeLine: Array<TimeLineEntry>,
-    focalDate: Dayjs,
-    rate: number,
-    unit: 'day' | 'week' | 'month' | 'year',
-  ) {
-    return 0;
-  }
 }

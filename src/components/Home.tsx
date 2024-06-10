@@ -20,7 +20,7 @@ export function Home({navigation}: Props): React.JSX.Element {
         style={styles.button}
         title="Iniciar"
         onPress={() => {
-          navigation.navigate('PUCalculator');
+          navigation.navigate('Interes Compuesto');
         }}
       />
     </View>
