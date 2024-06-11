@@ -1,6 +1,6 @@
 import {Picker} from '@react-native-picker/picker';
 import {Theme, useTheme} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackHeaderProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   Alert,
@@ -16,10 +16,8 @@ import {BarChart} from 'react-native-charts-wrapper';
 import {ICService} from '../../ICService';
 import globalStyles from '../../globalStyles';
 import {GradientBG, GradientButton} from '../atoms';
-
-type Props = {
-  readonly navigation: NativeStackNavigationProp<any, any>;
-};
+import {Example} from '../Ejemplos';
+import TextSquare from '../TextSquare';
 
 type FieldProps = {
   value: string;
@@ -48,7 +46,12 @@ const Field: React.FC<FieldProps> = ({value, onChange, label}) => {
   );
 };
 
-export const CalculatorIC: React.FC<Props> = ({}) => {
+export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
+  navigation,
+  route,
+}) => {
+  const example = route.params ? (route.params as Example) : undefined;
+
   const service = new ICService();
   const theme = useTheme();
   const styles = getLocalStyle({theme});
@@ -90,11 +93,26 @@ export const CalculatorIC: React.FC<Props> = ({}) => {
 
   const [result, setResult] = React.useState('');
 
+  React.useEffect(() => {
+    if (!example) {
+      return;
+    }
+    setCaltype(example.calcType);
+    setCapital(example.capital);
+    setRate(example.rate);
+    setTime(example.time);
+    setFuture(example.future);
+    setTimeSize(example.timeSize);
+  }, [example]);
+
   const toNumber = (number: string) =>
     number.replace(/[^0-9]/g, '').slice(0, 16);
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Interes Compuesto</Text>
+      {!!example && (
+        <TextSquare title={example.title} content={example.content} />
+      )}
       <View style={{paddingBottom: 16, paddingHorizontal: 16}}>
         <GradientBG style={styles.input}>
           <Picker
@@ -238,7 +256,10 @@ export const CalculatorIC: React.FC<Props> = ({}) => {
         />
       </View>
 
-      <Text style={styles.title}>Resultado: {result}</Text>
+      <Text style={styles.title}>
+        Resultado:
+        <Text style={[styles.title, {color: 'blue'}]}> {result}</Text>
+      </Text>
       {!!capital && !!future && !!time && (
         <View style={styles.charts}>
           <BarChart
@@ -257,7 +278,7 @@ export const CalculatorIC: React.FC<Props> = ({}) => {
                   lineWidth: 1.5,
                 },
                 drawAxisLine: true,
-                spaceBottom: 384,
+                spaceBottom: 350,
               },
               right: {
                 enabled: false,
@@ -294,6 +315,30 @@ export const CalculatorIC: React.FC<Props> = ({}) => {
           />
         </View>
       )}
+      <View
+        style={{
+          borderTopWidth: 2,
+          borderTopColor: 'black',
+          marginTop: 8,
+          marginHorizontal: 16,
+          padding: 8,
+          display: 'flex',
+          flexDirection: 'row',
+          alignContent: 'space-around',
+          alignItems: 'baseline',
+          justifyContent: 'space-around',
+        }}>
+        <GradientButton
+          style={{...styles.button, padding: 0, width: 128}}
+          title="Ejemplos"
+          onPress={() => navigation.navigate('Ejemplos')}
+        />
+        <GradientButton
+          style={{...styles.button, padding: 0, width: 128}}
+          title="Help"
+          onPress={() => navigation.navigate('Help')}
+        />
+      </View>
     </ScrollView>
   );
 };

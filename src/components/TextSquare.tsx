@@ -1,25 +1,35 @@
 import React from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  GestureResponderEvent,
+} from 'react-native';
 
 // Definición de las props que recibe el componente TextSquare
 interface TextSquareProps {
-  title: string; // Título del cuadrado de texto
-  content: string; // Contenido del cuadrado de texto
+  readonly title: string; // Título del cuadrado de texto
+  readonly content: string; // Contenido del cuadrado de texto
+  readonly onPress?: (event: GestureResponderEvent) => void;
 }
 
 // Componente funcional TextSquare que muestra un cuadrado de texto con un título, contenido y un botón
 export function TextSquare({
   title,
   content,
+  onPress,
 }: TextSquareProps): React.JSX.Element {
   return (
     <View style={styles.square}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.content}>{content}</Text>
 
-      <View style={styles.buttonContainer}>
-        <Button title="Colocar" onPress={() => {}} />
-      </View>
+      {!!onPress && (
+        <View style={styles.buttonContainer}>
+          <Button title="Colocar" onPress={onPress} />
+        </View>
+      )}
     </View>
   );
 }
