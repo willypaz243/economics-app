@@ -58,7 +58,7 @@ export function Ejemplos({navigation}: Props): React.JSX.Element {
       title: 'Ejemplo 4',
       content:
         'Un inversionista gana un premio de lotería de $100,000 y decide invertirlo en una cuenta de ahorros con una tasa deinterés anual del 4%. ¿Cuánto tendrá en la cuenta después de 20 años?',
-      capital: '10000',
+      capital: '100000',
       future: '',
       rate: '4',
       time: '20',
@@ -69,7 +69,7 @@ export function Ejemplos({navigation}: Props): React.JSX.Element {
       title: 'Ejemplo 5',
       content:
         'Una persona recibe una indemnización por despido de $30,000 y decide invertirla en una cuenta de ahorros con una tasa de interés anual del 8%. ¿Cuánto tendrá en la cuenta después de 12 años?',
-      capital: '300000',
+      capital: '30000',
       future: '',
       rate: '8',
       time: '12',

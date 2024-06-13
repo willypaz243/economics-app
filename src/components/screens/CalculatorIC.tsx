@@ -106,7 +106,7 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
   }, [example]);
 
   const toNumber = (number: string) =>
-    number.replace(/[^0-9]/g, '').slice(0, 16);
+    number.replace(/[^0-9.]/g, '').slice(0, 16);
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Interes Compuesto</Text>
