@@ -1,6 +1,6 @@
-import {Picker} from '@react-native-picker/picker';
-import {Theme, useTheme} from '@react-navigation/native';
-import {NativeStackHeaderProps} from '@react-navigation/native-stack';
+import { Picker } from '@react-native-picker/picker';
+import { Theme, useTheme } from '@react-navigation/native';
+import { NativeStackHeaderProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {
   Alert,
@@ -12,11 +12,11 @@ import {
   View,
   processColor,
 } from 'react-native';
-import {BarChart} from 'react-native-charts-wrapper';
-import {ICService} from '../../ICService';
+import { BarChart } from 'react-native-charts-wrapper';
+import { ICService } from '../../ICService';
 import globalStyles from '../../globalStyles';
-import {GradientBG, GradientButton} from '../atoms';
-import {Example} from '../Ejemplos';
+import { GradientBG, GradientButton } from '../atoms';
+import { Example } from '../Ejemplos';
 import TextSquare from '../TextSquare';
 
 type FieldProps = {
@@ -25,15 +25,15 @@ type FieldProps = {
   label: string;
 };
 
-const Field: React.FC<FieldProps> = ({value, onChange, label}) => {
+const Field: React.FC<FieldProps> = ({ value, onChange, label }) => {
   const theme = useTheme();
-  const styles = getLocalStyle({theme});
+  const styles = getLocalStyle({ theme });
   return (
-    <View style={{alignContent: 'flex-start'}}>
+    <View style={{ alignContent: 'flex-start' }}>
       <Text style={styles.text}>{label}</Text>
       <GradientBG style={styles.input}>
         <TextInput
-          style={{fontSize: 16, textDecorationColor: 'white'}}
+          style={{ fontSize: 16, textDecorationColor: 'white' }}
           cursorColor={'white'}
           value={value}
           onChange={onChange}
@@ -54,18 +54,18 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
 
   const service = new ICService();
   const theme = useTheme();
-  const styles = getLocalStyle({theme});
+  const styles = getLocalStyle({ theme });
   const items = [
-    {label: 'Diario', value: 'Diario'},
-    {label: 'Semanal', value: 'Semanal'},
-    {label: 'Quincenal', value: 'Quincenal'},
-    {label: 'Mensual', value: 'Mensual'},
-    {label: 'Bimestral', value: 'Bimestral'},
-    {label: 'Trimestral', value: 'Trimestral'},
-    {label: 'Semestral', value: 'Semestral'},
-    {label: 'Anual', value: 'Anual'},
+    { label: 'Diario', value: 'Diario' },
+    { label: 'Semanal', value: 'Semanal' },
+    { label: 'Quincenal', value: 'Quincenal' },
+    { label: 'Mensual', value: 'Mensual' },
+    { label: 'Bimestral', value: 'Bimestral' },
+    { label: 'Trimestral', value: 'Trimestral' },
+    { label: 'Semestral', value: 'Semestral' },
+    { label: 'Anual', value: 'Anual' },
   ];
-  const timeSizeDict: {[key: string]: string} = {
+  const timeSizeDict: { [key: string]: string } = {
     Diario: 'Dia(s)',
     Semanal: 'Semana(s)',
     Quincenal: 'Quincena(s)',
@@ -79,10 +79,10 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
   const [caltype, setCaltype] = React.useState('F');
 
   const caltypes = [
-    {label: 'Calcular Capital Futuro', value: 'F'},
-    {label: 'Calcular Capital Precente', value: 'P'},
-    {label: 'Calcular tasa de interes utilizado', value: 'i'},
-    {label: 'Calcular Tiempo de Capitalización', value: 'n'},
+    { label: 'Calcular Capital Futuro', value: 'F' },
+    { label: 'Calcular Capital Precente', value: 'P' },
+    { label: 'Calcular tasa de interes utilizado', value: 'i' },
+    { label: 'Calcular Tiempo de Capitalización', value: 'n' },
   ];
 
   const [capital, setCapital] = React.useState('');
@@ -105,6 +105,38 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
     setTimeSize(example.timeSize);
   }, [example]);
 
+  const handleChangeTimeSize = (value: string) => {
+    const previousTimeSize = timeSize;
+    setTimeSize(value);
+
+    const convertRate = (oldRate: string, oldTimeSize: string, newTimeSize: string): string => {
+      const timeSizeFactors: { [key: string]: number } = {
+        Diario: 365,
+        Semanal: 52,
+        Quincenal: 24,
+        Mensual: 12,
+        Bimestral: 6,
+        Trimestral: 4,
+        Semestral: 2,
+        Anual: 1,
+      };
+
+      const oldFactor = timeSizeFactors[oldTimeSize];
+      const newFactor = timeSizeFactors[newTimeSize];
+      const rateAsNumber = parseFloat(oldRate);
+      if (!isNaN(rateAsNumber) && oldFactor && newFactor) {
+        const convertedRate = (rateAsNumber * oldFactor) / newFactor;
+        return convertedRate.toString();
+      }
+      return oldRate;
+    };
+
+    if (rate && previousTimeSize && value) {
+      const newRate = convertRate(rate, previousTimeSize, value);
+      setRate(newRate);
+    }
+  }
+
   const toNumber = (number: string) =>
     number.replace(/[^0-9.]/g, '').slice(0, 16);
   return (
@@ -113,7 +145,7 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
       {!!example && (
         <TextSquare title={example.title} content={example.content} />
       )}
-      <View style={{paddingBottom: 16, paddingHorizontal: 16}}>
+      <View style={{ paddingBottom: 16, paddingHorizontal: 16 }}>
         <GradientBG style={styles.input}>
           <Picker
             selectedValue={caltype}
@@ -133,7 +165,7 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
         <GradientBG style={styles.input}>
           <Picker
             selectedValue={timeSize}
-            onValueChange={setTimeSize}
+            onValueChange={handleChangeTimeSize}
             mode="dropdown"
             style={styles.pickerStyle}>
             {items.map(item => (
@@ -146,7 +178,7 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
           </Picker>
         </GradientBG>
       </View>
-      <View style={{paddingHorizontal: 16}}>
+      <View style={{ paddingHorizontal: 16 }}>
         {caltype !== 'P' && (
           <Field
             label="Capital Inicial (P)"
@@ -258,7 +290,7 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
 
       <Text style={styles.title}>
         Resultado:
-        <Text style={[styles.title, {color: 'blue'}]}> {result}</Text>
+        <Text style={[styles.title, { color: 'blue' }]}> {result}</Text>
       </Text>
       {!!capital && !!future && !!time && (
         <View style={styles.charts}>
@@ -284,12 +316,12 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
                 enabled: false,
               },
             }}
-            marker={{enabled: true}}
+            marker={{ enabled: true }}
             data={{
               dataSets: [
                 {
                   values: [
-                    {x: 0, y: Number(capital), marker: 'Capital Presente'},
+                    { x: 0, y: Number(capital), marker: 'Capital Presente' },
                     {
                       x: Math.round(Number(time)),
                       y: Number(future),
@@ -307,8 +339,8 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
                 barWidth: 0.5,
               },
             }}
-            chartDescription={{text: ''}}
-            legend={{textSize: 14, drawInside: true}}
+            chartDescription={{ text: '' }}
+            legend={{ textSize: 14, drawInside: true }}
             onSelect={event => {
               console.log(JSON.stringify(event.nativeEvent, null, 2));
             }}
@@ -329,12 +361,12 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
           justifyContent: 'space-around',
         }}>
         <GradientButton
-          style={{...styles.button, padding: 0, width: 128}}
+          style={{ ...styles.button, padding: 0, width: 128 }}
           title="Ejemplos"
           onPress={() => navigation.navigate('Ejemplos')}
         />
         <GradientButton
-          style={{...styles.button, padding: 0, width: 128}}
+          style={{ ...styles.button, padding: 0, width: 128 }}
           title="Help"
           onPress={() => navigation.navigate('Help')}
         />
@@ -343,7 +375,7 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
   );
 };
 
-const getLocalStyle = ({}: {theme: Theme}) => ({
+const getLocalStyle = ({ }: { theme: Theme }) => ({
   ...globalStyles,
   pickerStyle: {
     color: 'white',
