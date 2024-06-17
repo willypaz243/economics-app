@@ -109,31 +109,39 @@ export const CalculatorIC: React.FC<NativeStackHeaderProps> = ({
     const previousTimeSize = timeSize;
     setTimeSize(value);
 
-    const convertRate = (oldRate: string, oldTimeSize: string, newTimeSize: string): string => {
-      const timeSizeFactors: { [key: string]: number } = {
-        Diario: 365,
-        Semanal: 52,
-        Quincenal: 24,
-        Mensual: 12,
-        Bimestral: 6,
-        Trimestral: 4,
-        Semestral: 2,
-        Anual: 1,
-      };
-
-      const oldFactor = timeSizeFactors[oldTimeSize];
-      const newFactor = timeSizeFactors[newTimeSize];
-      const rateAsNumber = parseFloat(oldRate);
-      if (!isNaN(rateAsNumber) && oldFactor && newFactor) {
-        const convertedRate = (rateAsNumber * oldFactor) / newFactor;
-        return convertedRate.toString();
-      }
-      return oldRate;
+    const timeSizeFactors: { [key: string]: number } = {
+      Diario: 365,
+      Semanal: 52,
+      Quincenal: 24,
+      Mensual: 12,
+      Bimestral: 6,
+      Trimestral: 4,
+      Semestral: 2,
+      Anual: 1,
     };
 
-    if (rate && previousTimeSize && value) {
-      const newRate = convertRate(rate, previousTimeSize, value);
+    const convertValue = (oldValue: string, oldFactor: number, newFactor: number): string => {
+      const valueAsNumber = parseFloat(oldValue);
+      if (!isNaN(valueAsNumber) && oldFactor && newFactor) {
+        const convertedValue = (valueAsNumber * oldFactor) / newFactor;
+        return convertedValue.toString();
+      }
+      return oldValue;
+    };
+
+    const oldRateFactor = timeSizeFactors[previousTimeSize];
+    const newRateFactor = timeSizeFactors[value];
+    const oldTimeFactor = timeSizeFactors[previousTimeSize];
+    const newTimeFactor = timeSizeFactors[value];
+
+    if (rate && oldRateFactor && newRateFactor) {
+      const newRate = convertValue(rate, oldRateFactor, newRateFactor);
       setRate(newRate);
+    }
+
+    if (time && oldTimeFactor && newTimeFactor) {
+      const newTime = convertValue(time, newTimeFactor, oldTimeFactor);
+      setTime(newTime);
     }
   }
 
